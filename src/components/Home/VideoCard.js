@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Card, CardBody, CardTitle, CardSubtitle } from "reactstrap";
 
 export default class YoutubeSample extends Component {
   constructor(props) {
@@ -24,9 +25,19 @@ export default class YoutubeSample extends Component {
       <p>Loading...</p>
     ) : (
       <>
-        <h4>{this.state.videoData.title}</h4>
-        <img src={this.state.videoData.thumbnails.medium.url} alt="thumbnail" />
-        <p>Channel: {this.state.videoData.channelTitle}</p>
+        <Card id="ty-card">
+          <CardBody>
+            <CardTitle tag="h5">{this.state.videoData.title}</CardTitle>
+            <CardSubtitle tag="h6" className="mb-2 text-muted">
+              Channel: {this.state.videoData.channelTitle}
+            </CardSubtitle>
+          </CardBody>
+          <img
+            width="80%"
+            src={this.state.videoData.thumbnails.maxres.url}
+            alt=""
+          />
+        </Card>
       </>
     );
   }

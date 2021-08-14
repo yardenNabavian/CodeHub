@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Container, Navbar, NavbarBrand } from "reactstrap";
-import { Link, BrowserRouter as Router } from "react-router-dom";
-import "./NavMenu.css";
+import "./NavBar.css";
+import { Link } from "react-router-dom";
 
-export default class NavMenu extends Component {
+export default class NavBar extends Component {
   render() {
     return (
       <header>
@@ -12,11 +12,9 @@ export default class NavMenu extends Component {
           light
         >
           <Container>
-            <Router>
-              <NavbarBrand tag={Link} to="/">
-                CodeHub
-              </NavbarBrand>
-            </Router>
+            <Link to="/">
+              <NavbarBrand>CodeHub</NavbarBrand>
+            </Link>
           </Container>
         </Navbar>
       </header>

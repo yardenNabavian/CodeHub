@@ -1,0 +1,37 @@
+#ty-card {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+img {
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  flex: auto;
+}
+
+@media only screen and (min-width: 575px) {
+  #home-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+  }
+}
+
+a:-webkit-any-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.video-responsive {
+  overflow: hidden;
+  padding-bottom: 56.25%;
+  position: relative;
+}
+
+.video-responsive iframe {
+  left: 0;
+  top: 0;
+  height: 85%;
+  width: 95%;
+  position: absolute;
+}
