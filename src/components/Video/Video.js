@@ -19,8 +19,6 @@ export default class Video extends Component {
   }
 
   render() {
-    console.log(this.props.match);
-    console.log(this.state.VideoData);
     return (
       <>
         <h2>{this.state.VideoData.title}</h2>

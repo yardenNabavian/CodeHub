@@ -1,9 +1,25 @@
 import React, { Component } from "react";
-import { Container, Navbar, NavbarBrand } from "reactstrap";
+import { Container, Navbar, NavbarBrand, Button, NavItem } from "reactstrap";
 import "./NavBar.css";
-import { Link } from "react-router-dom";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default class NavBar extends Component {
+  state = {
+    isSignedIn: false,
+  };
+  auth = getAuth();
+  componentDidMount() {
+    onAuthStateChanged(this.auth, (user) => {
+      if (user) {
+        this.setState({ isSignedIn: true });
+      }
+    });
+  }
+
+  handleSignOut = (event) => {
+    this.auth.signOut().then(this.setState({ isSignedIn: false }));
+  };
+
   render() {
     return (
       <header>
@@ -12,9 +28,14 @@ export default class NavBar extends Component {
           light
         >
           <Container>
-            <Link to="/">
-              <NavbarBrand>CodeHub</NavbarBrand>
-            </Link>
+            <NavbarBrand href="/">CodeHub</NavbarBrand>
+            {this.state.isSignedIn ? (
+              <>
+                <Button outline color="danger" onClick={this.handleSignOut}>
+                  Sign Out {this.auth.currentUser.displayName}
+                </Button>
+              </>
+            ) : null}
           </Container>
         </Navbar>
       </header>

@@ -27,11 +27,9 @@ export default class Home extends Component {
         ) : (
           this.state.videos.map((video, idx) => {
             return (
-              <>
-                <Link to={`/video/${video}`}>
-                  <VideoCard link={video} key={idx} />
-                </Link>
-              </>
+              <Link to={`/video/${video}`} key={idx}>
+                <VideoCard link={video} />
+              </Link>
             );
           })
         )}

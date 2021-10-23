@@ -1,4 +1,4 @@
-#ty-card {
+#yt-card {
   margin-bottom: 1rem;
   width: 100%;
 }
@@ -34,4 +34,13 @@ a:-webkit-any-link {
   height: 85%;
   width: 95%;
   position: absolute;
+}
+
+#login-btn-group {
+  margin: 1rem auto;
+}
+
+.card-body {
+  width: fit-content;
+  margin: auto;
 }

@@ -25,7 +25,7 @@ export default class YoutubeSample extends Component {
       <p>Loading...</p>
     ) : (
       <>
-        <Card id="ty-card">
+        <Card id="yt-card">
           <CardBody>
             <CardTitle tag="h5">{this.state.videoData.title}</CardTitle>
             <CardSubtitle tag="h6" className="mb-2 text-muted">
