@@ -12,12 +12,8 @@ import {
   Alert,
 } from "reactstrap";
 import { Link } from "react-router-dom";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
+import { auth, googleSignIn, provider, register } from "../../firebase";
+
 export default class Register extends React.Component {
   state = {
     email: "",
@@ -26,8 +22,6 @@ export default class Register extends React.Component {
     error: false,
     error2: false,
   };
-  auth = getAuth();
-  provider = new GoogleAuthProvider();
 
   handleChange = (event, fieldName) => {
     this.setState({ [fieldName]: event.target.value });
@@ -38,32 +32,16 @@ export default class Register extends React.Component {
     if (this.state.password !== this.state.confirmPassword) {
       this.setState({ error: true });
     } else {
-      createUserWithEmailAndPassword(
-        this.auth,
-        this.state.email,
-        this.state.password
-      )
-        .then
-        //redirect to home page somehow
-        ()
-        .catch((error) => {
-          const errorMessage = error.message;
-          console.error(errorMessage);
-          this.setState({ error2: true });
-        });
+      register(auth, this.state.email, this.state.password).catch((error) => {
+        this.setState({ error2: true });
+      });
     }
   };
 
   handleGoogleAuth = (event) => {
-    signInWithPopup(this.auth, this.provider)
-      .then
-      //redirect to homepage somehow
-      ()
-      .catch((error) => {
-        const errorMessage = error.message;
-        console.error(errorMessage);
-        this.setState({ error2: true });
-      });
+    googleSignIn(auth, provider).catch((error) => {
+      this.setState({ error2: true });
+    });
   };
 
   render() {

@@ -14,6 +14,7 @@ img {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 1rem;
+    margin-top: 1rem;
   }
 }
 
@@ -43,4 +44,9 @@ a:-webkit-any-link {
 .card-body {
   width: fit-content;
   margin: auto;
+}
+
+#videoCard-body {
+  width: fit-content;
+  margin: auto 2px;
 }

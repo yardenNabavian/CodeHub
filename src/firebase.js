@@ -1,5 +1,11 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDdU9-kabjwWAaLIaksxfjVWcRmyHQthrg",
@@ -11,3 +17,23 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
+export const auth = getAuth();
+export const provider = new GoogleAuthProvider();
+
+export const register = (auth, email, password) =>
+  createUserWithEmailAndPassword(auth, email, password).catch((error) => {
+    const errorMessage = error.message;
+    console.error(errorMessage);
+  });
+
+export const signIn = (auth, email, password) =>
+  signInWithEmailAndPassword(auth, email, password).catch((error) => {
+    const errorMessage = error.message;
+    console.error(errorMessage);
+  });
+
+export const googleSignIn = (auth, provider) =>
+  signInWithPopup(auth, provider).catch((error) => {
+    const errorMessage = error.message;
+    console.error(errorMessage);
+  });

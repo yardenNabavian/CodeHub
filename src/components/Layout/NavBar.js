@@ -1,15 +1,15 @@
 import React, { Component } from "react";
-import { Container, Navbar, NavbarBrand, Button, NavItem } from "reactstrap";
+import { Container, Navbar, NavbarBrand, Button } from "reactstrap";
 import "./NavBar.css";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../firebase";
 
 export default class NavBar extends Component {
   state = {
     isSignedIn: false,
   };
-  auth = getAuth();
   componentDidMount() {
-    onAuthStateChanged(this.auth, (user) => {
+    onAuthStateChanged(auth, (user) => {
       if (user) {
         this.setState({ isSignedIn: true });
       }
@@ -17,7 +17,7 @@ export default class NavBar extends Component {
   }
 
   handleSignOut = (event) => {
-    this.auth.signOut().then(this.setState({ isSignedIn: false }));
+    auth.signOut().then(this.setState({ isSignedIn: false }));
   };
 
   render() {
@@ -32,7 +32,7 @@ export default class NavBar extends Component {
             {this.state.isSignedIn ? (
               <>
                 <Button outline color="danger" onClick={this.handleSignOut}>
-                  Sign Out {this.auth.currentUser.displayName}
+                  Sign Out {auth.currentUser.displayName}
                 </Button>
               </>
             ) : null}

@@ -12,12 +12,7 @@ import {
   ButtonGroup,
   Alert,
 } from "reactstrap";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from "firebase/auth";
+import { signIn, googleSignIn, auth, provider, app } from "../../firebase";
 
 export default class Login extends React.Component {
   state = {
@@ -26,27 +21,18 @@ export default class Login extends React.Component {
     error: false,
   };
 
-  auth = getAuth();
-  provider = new GoogleAuthProvider();
-
   handleChange = (event, fieldName) => {
     this.setState({ [fieldName]: event.target.value });
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
-    signInWithEmailAndPassword(
-      this.auth,
-      this.state.email,
-      this.state.password
-    ).catch((error) => {
-      const errorMessage = error.message;
-      console.error(errorMessage);
-      this.setState({ error: true });
-    });
+    signIn(auth, this.state.email, this.state.password).catch(
+      this.setState({ error: true })
+    );
   };
   handleGoogleAuth = (event) => {
-    signInWithPopup(this.auth, this.provider);
+    googleSignIn(auth, provider);
   };
 
   render() {
