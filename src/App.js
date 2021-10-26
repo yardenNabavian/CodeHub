@@ -11,7 +11,6 @@ import {
 } from "react-router-dom";
 import Login from "./components/Authent/Login";
 import Register from "./components/Authent/Register";
-import { app } from "./firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 class App extends Component {
@@ -33,7 +32,7 @@ class App extends Component {
       <Router>
         <Layout>
           {this.state.loading ? (
-            <h1>Loading...</h1>
+            <></>
           ) : (
             <Switch>
               {this.state.isAuthed ? (

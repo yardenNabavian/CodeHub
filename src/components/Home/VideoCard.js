@@ -9,9 +9,9 @@ export default class YoutubeSample extends Component {
 
   apiKey = process.env.REACT_APP_YOUTUBE_API_KEY;
 
-  componentDidMount() {
+  async componentDidMount() {
     //fetch data from youtube api
-    fetch(
+    await fetch(
       `https://www.googleapis.com/youtube/v3/videos?id=${this.props.link}&key=${this.apiKey}&part=snippet,statistics&fields=items(id,snippet,statistics)`
     )
       .then((response) => response.json())
@@ -20,9 +20,20 @@ export default class YoutubeSample extends Component {
       );
   }
 
+  highestResThumbnail() {
+    const pics = this.state.videoData.thumbnails;
+    if (pics.maxres) {
+      return pics.maxres.url;
+    } else if (pics.high) {
+      return pics.high.url;
+    } else {
+      return pics.default.url;
+    }
+  }
+
   render() {
     return this.state.loading ? (
-      <p>Loading...</p>
+      <></>
     ) : (
       <>
         <Card id="yt-card">
@@ -33,9 +44,8 @@ export default class YoutubeSample extends Component {
             </CardSubtitle>
           </CardBody>
           <img
-            width="80%"
-            src={this.state.videoData.thumbnails.maxres.url}
-            alt=""
+            src={this.highestResThumbnail()}
+            alt={this.state.videoData.title}
           />
         </Card>
       </>

@@ -13,9 +13,11 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { auth, googleSignIn, provider, register } from "../../firebase";
+import { updateProfile } from "@firebase/auth";
 
 export default class Register extends React.Component {
   state = {
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -32,9 +34,15 @@ export default class Register extends React.Component {
     if (this.state.password !== this.state.confirmPassword) {
       this.setState({ error: true });
     } else {
-      register(auth, this.state.email, this.state.password).catch((error) => {
-        this.setState({ error2: true });
-      });
+      register(auth, this.state.email, this.state.password)
+        .then(() => {
+          updateProfile(auth.currentUser, {
+            displayName: this.state.name,
+          });
+        })
+        .catch((error) => {
+          this.setState({ error2: true });
+        });
     }
   };
 
@@ -51,6 +59,17 @@ export default class Register extends React.Component {
           <CardTitle tag="h5">Register</CardTitle>
           <CardBody>
             <Form onSubmit={this.handleSubmit}>
+              <FormGroup>
+                <Label for="username">First Name</Label>
+                <Input
+                  type="text"
+                  name="name"
+                  id="username"
+                  value={this.state.name}
+                  onChange={(event) => this.handleChange(event, "name")}
+                  placeholder="What is your name?"
+                />
+              </FormGroup>
               <FormGroup>
                 <Label for="RegisterEmail">Email</Label>
                 <Input

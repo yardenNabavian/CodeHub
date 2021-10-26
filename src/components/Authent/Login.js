@@ -12,7 +12,7 @@ import {
   ButtonGroup,
   Alert,
 } from "reactstrap";
-import { signIn, googleSignIn, auth, provider, app } from "../../firebase";
+import { signIn, googleSignIn, auth, provider } from "../../firebase";
 
 export default class Login extends React.Component {
   state = {

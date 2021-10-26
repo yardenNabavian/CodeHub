@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import VideoCard from "./VideoCard"; //npm i youtube-node
 import { Link } from "react-router-dom";
 import { FormGroup, Form, Input, Button } from "reactstrap";
+import { getVideos, auth, addVideo, deleteVideo } from "../../firebase";
 
 export default class Home extends Component {
   constructor(props) {
@@ -9,7 +10,7 @@ export default class Home extends Component {
     this.state = {
       linkText: "",
       videos: [],
-      loading: false,
+      loading: true,
     };
   }
 
@@ -19,23 +20,33 @@ export default class Home extends Component {
     return match && match[1].length === 11 ? match[1] : false;
   }
 
-  async componentDidMount() {}
+  componentDidMount() {
+    getVideos(auth.currentUser.uid).then((vids) => {
+      this.setState({ videos: vids, loading: false });
+      console.log(this.state);
+    });
+  }
 
-  handleDelete = (event) => {
-    //delete video
-    console.log("deleted", event);
+  handleDelete = async (event) => {
+    await this.setState({ loading: true });
+    deleteVideo(auth.currentUser.uid, event.link);
+    const videos = await this.state.videos.filter((v) => v.link !== event.link);
+    this.setState({ videos, loading: false });
   };
 
   handleChange = (event) => {
     this.setState({ linkText: event.target.value });
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
-    let linkID = this.youtube_parser(this.state.linkText);
-    //add to db
+    let linkID = await this.youtube_parser(this.state.linkText);
+    addVideo(auth.currentUser.uid, linkID);
+    const videos = [...this.state.videos];
+    await videos.push({ link: linkID });
     this.setState({
       linkText: "",
+      videos,
     });
   };
 
@@ -57,13 +68,13 @@ export default class Home extends Component {
         </Form>
         <div id="home-container">
           {this.state.loading ? (
-            <h1>Loading...</h1>
+            <></>
           ) : (
-            this.state.videos.map((video, idx) => {
+            this.state.videos.map((video) => {
               return (
-                <div key={idx}>
-                  <Link to={`/video/${video}`}>
-                    <VideoCard link={video} />
+                <div key={video}>
+                  <Link to={`/video/${video.link}`}>
+                    <VideoCard link={video.link} />
                   </Link>
                   <Button onClick={() => this.handleDelete(video)}>
                     Delete
