@@ -28,7 +28,7 @@ export default class NavBar extends Component {
           light
         >
           <Container>
-            <NavbarBrand href="/">CodeHub</NavbarBrand>
+            <NavbarBrand href="/">myPlaylist</NavbarBrand>
             {this.state.isSignedIn ? (
               <>
                 <Button outline color="danger" onClick={this.handleSignOut}>
